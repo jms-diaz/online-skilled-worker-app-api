@@ -7,7 +7,15 @@ const UserSchema = new Schema(
 		role: {
 			type: String,
 			default: 'worker',
-			enum: [ 'worker', 'customer' ]
+			enum: [ 'worker', 'customer', 'admin' ]
+		},
+		customer_temp_id: {
+			type: Schema.Types.ObjectId,
+			ref: 'Customer'
+		},
+		worker_temp_id: {
+			type: Schema.Types.ObjectId,
+			ref: 'Worker'
 		}
 	},
 	{ timestamps: true }

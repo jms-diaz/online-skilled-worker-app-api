@@ -1,11 +1,8 @@
 const { Schema, model } = require('mongoose');
+const job = require('./Job');
 
 const CustomerSchema = new Schema(
 	{
-		user_id: {
-			type: Schema.Types.ObjectId,
-			ref: 'User'
-		},
 		name: {
 			type: String,
 			required: true
@@ -34,7 +31,8 @@ const CustomerSchema = new Schema(
 		},
 		bio: {
 			type: String
-		}
+		},
+		jobsCreated: [ job.schema ]
 	},
 	{ timestamps: true }
 );

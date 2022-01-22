@@ -1,11 +1,10 @@
 const { Schema, model } = require('mongoose');
+const education = require('./Education');
+const experience = require('./Experience');
+const job = require('./Job');
 
 const WorkerSchema = new Schema(
 	{
-		user_id: {
-			type: Schema.Types.ObjectId,
-			ref: 'User'
-		},
 		fullName: {
 			type: String,
 			required: true
@@ -38,26 +37,13 @@ const WorkerSchema = new Schema(
 			type: Number,
 			required: true
 		},
-		universityName: {
-			type: String,
-			required: true
+		verified: {
+			type: Boolean,
+			default: false
 		},
-		qualification: {
-			type: String,
-			required: true
-		},
-		graduationDate: {
-			type: Date,
-			required: true
-		},
-		universityLocation: {
-			type: String,
-			required: true
-		},
-		fieldOfStudy: {
-			type: String,
-			required: true
-		}
+		education: [ education.schema ],
+		experience: [ experience.schema ],
+		jobsTaken: [ job.schema ]
 	},
 	{ timestamps: true }
 );

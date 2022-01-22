@@ -2,25 +2,44 @@ const { Schema, model } = require('mongoose');
 
 const JobSchema = new Schema(
 	{
-		positionTitle: {
+		name: {
 			type: String,
 			required: true
 		},
-		employmentType: {
+		jobTitle: {
 			type: String,
 			required: true
 		},
-		jobSpecialization: {
+		jobDescription: {
 			type: String,
 			required: true
 		},
-		jobRole: {
-			type: String,
-			required: true
-		},
-		monthlySalary: {
+		salary: {
 			type: Number,
 			required: true
+		},
+		jobLocation: {
+			type: String,
+			required: true
+		},
+		latitude: {
+			type: Number,
+			required: true
+		},
+		longitude: {
+			type: Number,
+			required: true
+		},
+		completed: {
+			type: Boolean,
+			default: false
+		},
+		paid: {
+			type: Boolean,
+			default: false
+		},
+		takenBy: {
+			type: String
 		}
 	},
 	{ timestamps: true }

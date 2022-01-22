@@ -25,6 +25,9 @@ require('./middlewares/passport')(passport);
 app.use('/api/users', require('./routes/users'));
 app.use('/api/workers', require('./routes/workers'));
 app.use('/api/customers', require('./routes/customers'));
+app.use('/api/education', require('./routes/education'));
+app.use('/api/experience', require('./routes/experience'));
+app.use('/api/jobs', require('./routes/jobs'));
 
 const startApp = () => {
 	try {

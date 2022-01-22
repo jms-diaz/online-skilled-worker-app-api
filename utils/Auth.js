@@ -9,7 +9,6 @@ const passport = require('passport');
  */
 const userRegister = async (userDetails, role, res) => {
 	try {
-		console.log(userDetails);
 		// Validate the email
 		let emailNotRegistered = await validateEmail(userDetails.values.email);
 		if (!emailNotRegistered) {
@@ -61,6 +60,7 @@ const userLogin = async (userCreds, role, res) => {
 		});
 	}
 
+	// Admin pass: oswlPass996
 	// Check user role
 	if (user.role !== role) {
 		return res.status(401).json({

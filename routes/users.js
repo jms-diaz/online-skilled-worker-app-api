@@ -23,19 +23,15 @@ router.post('/login-customer', async (req, res) => {
 	await userLogin(req.body, 'customer', res);
 });
 
+// Customer Login Route
+router.post('/login-admin', async (req, res) => {
+	await userLogin(req.body, 'admin', res);
+	console.log('request received');
+});
+
 // Profile Route
 router.get('/profile', userAuth, async (req, res) => {
 	return res.json(serializeUser(req.user));
-});
-
-// Workers Protected Route
-router.get('/worker-protected', userAuth, checkRole([ 'worker' ]), async (req, res) => {
-	return res.json('Hello Worker');
-});
-
-// Employer Protected Route
-router.get('/employer-protected', userAuth, checkRole([ 'employer' ]), async (req, res) => {
-	return res.json('Hello Employer');
 });
 
 module.exports = router;
