@@ -48,7 +48,8 @@ const getTakenJobs = async (req, res) => {
 	try {
 		const name = await req.query.name;
 		let worker = await Worker.find({ fullName: name });
-		const jobs = worker[0].jobsTaken;
+		let w = worker[0];
+		const jobs = w.jobsTaken;
 		res.status(200).json(jobs);
 	} catch (err) {
 		console.log(err);

@@ -154,7 +154,7 @@ const markJobAsComplete = async (details, res) => {
 		);
 
 		await Worker.findOneAndUpdate(
-			{ name: workerName },
+			{ fullName: workerName },
 			{ $set: { 'jobsTaken.$[job].completed': true } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
 		);
@@ -182,12 +182,14 @@ const markJobAsPaid = async (details, res) => {
 			{ $set: { 'jobsCreated.$[job].paid': true } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
 		);
+		console.log(workerName);
 
-		await Worker.findOneAndUpdate(
-			{ name: workerName },
+		let worker = await Worker.findOneAndUpdate(
+			{ fullName: workerName },
 			{ $set: { 'jobsTaken.$[job].paid': true } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
 		);
+
 		res.status(200).json(job);
 	} catch (err) {
 		console.log(err);
