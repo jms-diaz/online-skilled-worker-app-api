@@ -112,7 +112,6 @@ const applyJobWorker = async (req, res) => {
 
 const searchWorkers = async (req, res) => {
 	try {
-		console.log(req.query);
 		const occupation = req.query.jobTitle;
 		const address = req.query.location;
 		let worker = await Worker.find({

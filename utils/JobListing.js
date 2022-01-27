@@ -124,10 +124,10 @@ const getPendingJobs = async (req, res) => {
 const searchJobs = async (req, res) => {
 	try {
 		const jobTitle = req.query.jobTitle;
-		const industry = req.query.jobSpecialization;
+		const jobLocation = req.query.jobLocation;
 		let jobs = await Job.find({
 			jobTitle: { $regex: jobTitle, $options: 'i' },
-			industry: { $regex: industry, $options: 'i' }
+			jobLocation: { $regex: jobLocation, $options: 'i' }
 		});
 		res.status(200).json(jobs);
 	} catch (err) {
@@ -182,7 +182,6 @@ const markJobAsPaid = async (details, res) => {
 			{ $set: { 'jobsCreated.$[job].paid': true } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
 		);
-		console.log(workerName);
 
 		let worker = await Worker.findOneAndUpdate(
 			{ fullName: workerName },

@@ -26,7 +26,6 @@ router.post('/login-customer', async (req, res) => {
 // Customer Login Route
 router.post('/login-admin', async (req, res) => {
 	await userLogin(req.body, 'admin', res);
-	console.log('request received');
 });
 
 // Profile Route
