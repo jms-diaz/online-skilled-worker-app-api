@@ -7,7 +7,8 @@ const {
 	getTakenJobs,
 	getCurrentWorker,
 	applyJobWorker,
-	searchWorkers
+	searchWorkers,
+	getWorker
 } = require('../utils/WorkerDetails');
 
 // Register Worker Details Route
@@ -37,6 +38,10 @@ router.get('/apply-job', async (req, res) => {
 
 router.get('/search', async (req, res) => {
 	await searchWorkers(req, res);
+});
+
+router.get('/find-one', async (req, res) => {
+	await getWorker(req, res);
 });
 
 module.exports = router;

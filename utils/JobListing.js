@@ -86,6 +86,11 @@ const applyWorker = async (details, res) => {
 			{ $set: { 'jobsCreated.$[job].takenBy': workerName } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
 		);
+
+		return res.status(200).json({
+			message: 'Worker has been hired',
+			success: true
+		});
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({
@@ -158,8 +163,7 @@ const markJobAsComplete = async (details, res) => {
 			{ $set: { 'jobsTaken.$[job].completed': true } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
 		);
-
-		res.status(200).json(job);
+		return res.status(200).json(job);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({
@@ -177,7 +181,7 @@ const markJobAsPaid = async (details, res) => {
 
 		let job = await Job.findOneAndUpdate({ jobTitle: jobTitle }, { paid: true }, { new: true });
 
-		await Customer.findOneAndUpdate(
+		let customer = await Customer.findOneAndUpdate(
 			{ name: customerName },
 			{ $set: { 'jobsCreated.$[job].paid': true } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
@@ -188,12 +192,27 @@ const markJobAsPaid = async (details, res) => {
 			{ $set: { 'jobsTaken.$[job].paid': true } },
 			{ arrayFilters: [ { 'job.jobTitle': jobTitle } ], new: true }
 		);
-
-		res.status(200).json(job);
+		console.log(details);
+		return res.status(200).json(job);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({
 			message: 'Something went wrong.',
+			success: false
+		});
+	}
+};
+
+const getCreatedJobs = async (req, res) => {
+	try {
+		let name = req.query.name;
+		let createdJobs = await Job.find({ name: name });
+		console.log(name);
+		return res.status(200).json(createdJobs);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({
+			message: 'No jobs found.',
 			success: false
 		});
 	}
@@ -207,5 +226,6 @@ module.exports = {
 	markJobAsComplete,
 	searchJobs,
 	markJobAsPaid,
-	applyWorker
+	applyWorker,
+	getCreatedJobs
 };

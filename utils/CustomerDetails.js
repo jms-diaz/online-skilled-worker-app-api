@@ -34,7 +34,7 @@ const postCustomerDetails = async (customerDetails, res) => {
 const getAllCustomers = async (req, res) => {
 	try {
 		let customers = await Customer.find();
-		res.status(200).json(customers);
+		return res.status(200).json(customers);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({
@@ -44,13 +44,28 @@ const getAllCustomers = async (req, res) => {
 	}
 };
 
-const getCreatedJobs = async (req, res) => {
+const getCustomerCreatedJobs = async (req, res) => {
 	try {
 		const name = req.query.name;
-		let customer = await Customer.find({ name: name });
-		let c = customer[0];
-		const jobs = c.jobsCreated;
-		res.status(200).json(jobs);
+		let createdJobs = await Customer.findOne({ name: name }).populate({ path: 'jobsCreated' });
+		res.status(200).json(createdJobs);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({
+			message: 'No jobs found.',
+			success: false
+		});
+	}
+};
+
+const getCustomerPendingJobs = async (req, res) => {
+	try {
+		const name = req.query.name;
+		let createdJobs = await Customer.findOne({ name: name }, { 'jobsCreated.completed': false }).populate({
+			path: 'jobsCreated'
+		});
+		console.log(createdJobs);
+		res.status(200).json(createdJobs);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({
@@ -64,7 +79,7 @@ const getCurrentCustomer = async (req, res) => {
 	try {
 		const user_id = req.query.user_id;
 		let customer = await User.findById(user_id).populate('customer_temp_id');
-		res.status(200).json(customer);
+		return res.status(200).json(customer);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({
@@ -74,9 +89,27 @@ const getCurrentCustomer = async (req, res) => {
 	}
 };
 
+const getCustomer = async (req, res) => {
+	try {
+		const name = req.query.name;
+		let customer = await Customer.findOne({
+			name: name
+		});
+		res.status(200).json(customer);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({
+			message: 'No customer found.',
+			success: false
+		});
+	}
+};
+
 module.exports = {
 	postCustomerDetails,
 	getAllCustomers,
-	getCreatedJobs,
-	getCurrentCustomer
+	getCustomerCreatedJobs,
+	getCustomerPendingJobs,
+	getCurrentCustomer,
+	getCustomer
 };

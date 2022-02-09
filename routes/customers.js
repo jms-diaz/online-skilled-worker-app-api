@@ -3,8 +3,10 @@ const router = require('express').Router();
 const {
 	postCustomerDetails,
 	getAllCustomers,
-	getCreatedJobs,
-	getCurrentCustomer
+	getCustomerCreatedJobs,
+	getCustomerPendingJobs,
+	getCurrentCustomer,
+	getCustomer
 } = require('../utils/CustomerDetails');
 
 // Register Customer Details Route
@@ -17,11 +19,19 @@ router.get('/all', async (req, res) => {
 });
 
 router.get('/created-jobs', async (req, res) => {
-	await getCreatedJobs(req, res);
+	await getCustomerCreatedJobs(req, res);
+});
+
+router.get('/pending-jobs', async (req, res) => {
+	await getCustomerPendingJobs(req, res);
 });
 
 router.get('/current', async (req, res) => {
 	await getCurrentCustomer(req, res);
+});
+
+router.get('/find-one', async (req, res) => {
+	await getCustomer(req, res);
 });
 
 module.exports = router;

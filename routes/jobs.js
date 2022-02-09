@@ -6,7 +6,8 @@ const {
 	searchJobs,
 	markJobAsPaid,
 	hireWorker,
-	applyWorker
+	applyWorker,
+	getCreatedJobs
 } = require('../utils/JobListing');
 
 const router = require('express').Router();
@@ -41,6 +42,10 @@ router.put('/mark-as-paid', async (req, res) => {
 
 router.get('/search', async (req, res) => {
 	await searchJobs(req, res);
+});
+
+router.get('/created-jobs', async (req, res) => {
+	await getCreatedJobs(req, res);
 });
 
 module.exports = router;

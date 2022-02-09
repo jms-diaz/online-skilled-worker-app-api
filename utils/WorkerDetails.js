@@ -47,9 +47,8 @@ const verifyWorker = async (req, res) => {
 const getTakenJobs = async (req, res) => {
 	try {
 		const name = await req.query.name;
-		let worker = await Worker.find({ fullName: name });
-		let w = worker[0];
-		const jobs = w.jobsTaken;
+		let worker = await Worker.findOne({ fullName: name });
+		const jobs = worker.jobsTaken;
 		res.status(200).json(jobs);
 	} catch (err) {
 		console.log(err);
@@ -128,6 +127,22 @@ const searchWorkers = async (req, res) => {
 	}
 };
 
+const getWorker = async (req, res) => {
+	try {
+		const fullName = req.query.name;
+		let worker = await Worker.findOne({
+			fullName: fullName
+		});
+		res.status(200).json(worker);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({
+			message: 'No worker found.',
+			success: false
+		});
+	}
+};
+
 module.exports = {
 	postWorkerDetails,
 	getAllWorkers,
@@ -135,5 +150,6 @@ module.exports = {
 	verifyWorker,
 	getCurrentWorker,
 	applyJobWorker,
-	searchWorkers
+	searchWorkers,
+	getWorker
 };
