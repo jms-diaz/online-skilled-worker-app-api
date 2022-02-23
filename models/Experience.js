@@ -17,7 +17,11 @@ const ExperienceSchema = new Schema({
 		type: String,
 		required: true
 	},
-	country: {
+	salary: {
+		type: Number,
+		required: true
+	},
+	resume: {
 		type: String,
 		required: true
 	},
